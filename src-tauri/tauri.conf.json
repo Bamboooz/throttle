@@ -12,7 +12,9 @@
     },
     "tauri": {
         "allowlist": {
-           
+           "globalShortcut": {
+                "all": true
+            }
         },
         "bundle": {
             "active": true,
@@ -32,6 +34,7 @@
                 "fullscreen": false,
                 "resizable": false,
                 "decorations": false,
+                "transparent": true,
                 "title": "throttle",
                 "width": 200,
                 "height": 200
