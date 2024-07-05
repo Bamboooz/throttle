@@ -1,6 +1,6 @@
 [package]
 name = "throttle"
-version = "0.0.1"
+version = "0.0.5"
 description = "throttle"
 authors = ["Bamboooz"]
 license = "BSD-3-Clause"
@@ -20,7 +20,6 @@ tauri-plugin-positioner = "1.0"
 sysinfo = "0.30.12"
 global-hotkey = "0.5.4"
 nvml-wrapper = "0.10.0"
-lazy_static = "1.5.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
