@@ -1,6 +1,6 @@
 <div align="center">
-    <img alt="throttle logo" width="100" src="https://github.com/Bamboooz/throttle/blob/main/public/icon.png?raw=true" />
-</div>
+    <img alt="throttle logo" width="100" src="https://github.com/Bamboooz/throttle/blob/main/assets/icon.png?raw=true" />
+</div> 
 
 <div align="center">
     <h1>throttle</h1>
@@ -12,7 +12,7 @@ throttle is a performance overlay for Windows and Linux. Open/close it with Alt+
 
 <br />
 
-<img alt="project preview" src="https://github.com/Bamboooz/throttle/blob/main/public/preview.png?raw=true" />
+<img alt="project preview" src="https://github.com/Bamboooz/throttle/blob/main/assets/preview.png?raw=true" />
 
 <br />
 

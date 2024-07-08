@@ -1,0 +1,40 @@
+{
+  "version": 0,
+  "root_name": "throttle",
+  "workspace_crates": {
+    "throttle": {
+      "full_path": "/home/bamboooz/Desktop/Programming/throttle/Cargo.toml",
+      "dependencies": {
+        "eframe": {
+          "original_features": [
+            "default_fonts",
+            "x11",
+            "glow",
+            "web_screen_reader",
+            "accesskit",
+            "wayland"
+          ],
+          "successfully_removed_features": [
+            "x11",
+            "web_screen_reader",
+            "wayland",
+            "accesskit",
+            "default_fonts"
+          ],
+          "unsuccessfully_removed_features": [
+            "glow"
+          ]
+        },
+        "sysinfo": {
+          "original_features": [
+            "multithread"
+          ],
+          "successfully_removed_features": [
+            "multithread"
+          ],
+          "unsuccessfully_removed_features": []
+        }
+      }
+    }
+  }
+}
