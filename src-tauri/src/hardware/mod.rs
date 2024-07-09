@@ -3,17 +3,17 @@ mod memory;
 mod graphics;
 
 use std::sync::Mutex;
+use sysinfo::{System, MemoryRefreshKind, CpuRefreshKind, RefreshKind};
+use nvml_wrapper::Nvml;
 use serde::{Serialize, Deserialize};
 use lazy_static::lazy_static;
 
-use processor::Cpu;
-use graphics::Gpu;
-use memory::Ram;
-
 lazy_static! {
-    static ref CPU: Mutex<Cpu> = Mutex::new(Cpu::init());
-    static ref GPU: Gpu = Gpu::init();
-    static ref RAM: Mutex<Ram> = Mutex::new(Ram::init());
+    pub static ref SYSTEM: Mutex<System> = Mutex::new(System::new_with_specifics(RefreshKind::new()
+        .with_memory(MemoryRefreshKind::new().with_ram().without_swap())
+        .with_cpu(CpuRefreshKind::new().with_cpu_usage().without_frequency())
+        .without_processes()));
+    pub static ref NVML: Mutex<Option<Nvml>> = Mutex::new(Nvml::init().ok());
 }
 
 #[derive(Serialize, Deserialize)]
@@ -27,14 +27,11 @@ pub struct HwInfo {
 
 #[tauri::command]
 pub async fn hw_info() -> HwInfo {
-    let mut cpu = CPU.lock().unwrap();
-    let mut ram = RAM.lock().unwrap();
-
     HwInfo {
-        cpu_usage: cpu.get_usage().round(),
-        cpu_temp: cpu.get_temperature().round(),
-        gpu_usage: GPU.get_usage().round(),
-        gpu_temp: GPU.get_temperature().round(),
-        ram_usage: ram.get_usage().round(),
+        cpu_usage: processor::usage().round(),
+        cpu_temp: processor::temperature().round(),
+        gpu_usage: graphics::usage().round(),
+        gpu_temp: graphics::temperature().round(),
+        ram_usage: memory::usage().round(),
     }
 }
