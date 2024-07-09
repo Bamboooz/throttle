@@ -8,7 +8,7 @@ pub struct Cpu {
 }
 
 impl Cpu {
-    pub fn new() -> Self {
+    pub fn init() -> Self {
         let refresh_kind = CpuRefreshKind::new()
             .with_cpu_usage()
             .without_frequency();

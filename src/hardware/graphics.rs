@@ -8,7 +8,7 @@ pub struct Gpu {
 }
 
 impl Gpu {
-    pub fn new() -> Self {
+    pub fn init() -> Self {
         let nvml = Nvml::init().ok();
         
         Self {

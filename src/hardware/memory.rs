@@ -6,7 +6,7 @@ pub struct Ram {
 }
 
 impl Ram {
-    pub fn new() -> Self {
+    pub fn init() -> Self {
         let refresh_kind = MemoryRefreshKind::new()
             .with_ram()
             .without_swap();

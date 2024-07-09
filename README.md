@@ -30,17 +30,11 @@ git clone https://github.com/Bamboooz/throttle.git
 or download the source code from this [url](https://github.com/Bamboooz/throttle/releases/latest)
 
 2. Install the following prerequisites:
-    - [node.js](https://nodejs.org/en/download/prebuilt-installer)
-    - [pnpm](https://pnpm.io/installation#using-npm)
     - [Rust compiler](https://www.rust-lang.org/tools/install)
 
 3. Open the cloned/downloaded directory in a terminal and execute the following command
 ```bash
-pnpm i
-```
-4. Now you are ready to run the app using this command
-```bash
-pnpm run tauri dev
+cargo run
 ```
 
 ## Support me

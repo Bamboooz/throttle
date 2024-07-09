@@ -7,7 +7,7 @@ use rdev;
 use eframe::{egui, NativeOptions};
 use egui::{Pos2, ViewportBuilder};
 
-use crate::gui::app::Application;
+use crate::gui::app::app::Application;
 
 fn main() -> eframe::Result {
     // remember that before running, use unused-features analyze and cargo build and then cargo run --release for max optimizations
