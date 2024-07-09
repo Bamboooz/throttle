@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api";
-import { appWindow } from "@tauri-apps/api/window";
 
 import Header from "./interface/Header";
 import Item from "./interface/Item";
@@ -15,9 +14,7 @@ const App: React.FC = () => {
     });
 
     useEffect(() => {
-        const fetchHwInfo = async () => {
-
-        };
+        const fetchHwInfo = async () => setHwInfo(await invoke("hw_info"));
 
         fetchHwInfo();
         

@@ -3,22 +3,16 @@ use nvml_wrapper::enum_wrappers::device::TemperatureSensor;
 
 pub struct Gpu {
     nvml: Option<Nvml>,
-    pub usage: f64,
-    pub temperature: f64,
 }
 
 impl Gpu {
     pub fn init() -> Self {
         let nvml = Nvml::init().ok();
         
-        Self {
-            nvml,
-            usage: 0.0,
-            temperature: 0.0,
-        }
+        Self { nvml }
     }
 
-    fn get_usage(&self) -> f64 {
+    pub fn get_usage(&self) -> f64 {
         let nvml = match &self.nvml {
             Some(nvml) => nvml,
             None => return -1.0,
@@ -35,7 +29,7 @@ impl Gpu {
         }
     }
     
-    fn get_temperature(&self) -> f64 {
+    pub fn get_temperature(&self) -> f64 {
         let nvml = match &self.nvml {
             Some(nvml) => nvml,
             None => return -1.0,
@@ -50,11 +44,6 @@ impl Gpu {
             Ok(temperature) => temperature as f64,
             Err(_) => -1.0,
         }
-    }
-    
-    pub fn refresh_all(&mut self) {
-        self.usage = self.get_usage();
-        self.temperature = self.get_temperature();
     }
     
     pub fn deinitialize(&mut self) {

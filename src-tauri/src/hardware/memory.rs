@@ -2,7 +2,6 @@ use sysinfo::{MemoryRefreshKind, RefreshKind, System};
 
 pub struct Ram {
     system: System,
-    pub usage: f64,
 }
 
 impl Ram {
@@ -18,13 +17,10 @@ impl Ram {
                 .without_processes(),
         );
         
-        Self {
-            system,
-            usage: -1.0,
-        }
+        Self { system }
     }
     
-    fn get_usage(&mut self) -> f64 {
+    pub fn get_usage(&mut self) -> f64 {
         self.system.refresh_memory();
         
         let used_memory = self.system.used_memory() as f64;
@@ -33,9 +29,5 @@ impl Ram {
         let usage = used_memory / total_memory * 100.0;
         
         usage
-    }
-    
-    pub fn refresh_all(&mut self) {
-        self.usage = self.get_usage();
     }
 }

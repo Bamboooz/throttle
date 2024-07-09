@@ -3,6 +3,8 @@
     windows_subsystem = "windows"
 )]
 
+mod hardware;
+
 use tauri::{App, Manager, Position, PhysicalPosition, Window};
 
 fn set_window_position(window: &Window) -> Result<(), Box<dyn std::error::Error>> {
@@ -35,7 +37,9 @@ fn initialize(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
 fn main() {
     tauri::Builder::default()
         .setup(initialize)
-        .invoke_handler(tauri::generate_handler![])
+        .invoke_handler(tauri::generate_handler![
+            hardware::hw_info
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
