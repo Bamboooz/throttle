@@ -2,6 +2,7 @@ mod processor;
 mod memory;
 mod graphics;
 
+use std::sync::Mutex;
 use serde::{Serialize, Deserialize};
 use lazy_static::lazy_static;
 
@@ -10,9 +11,9 @@ use graphics::Gpu;
 use memory::Ram;
 
 lazy_static! {
-    static ref CPU: Cpu = Cpu::init();
+    static ref CPU: Mutex<Cpu> = Mutex::new(Cpu::init());
     static ref GPU: Gpu = Gpu::init();
-    static ref RAM: Ram = Ram::init();
+    static ref RAM: Mutex<Ram> = Mutex::new(Ram::init());
 }
 
 #[derive(Serialize, Deserialize)]
@@ -26,11 +27,14 @@ pub struct HwInfo {
 
 #[tauri::command]
 pub async fn hw_info() -> HwInfo {
+    let mut cpu = CPU.lock().unwrap();
+    let mut ram = RAM.lock().unwrap();
+
     HwInfo {
-        cpu_usage: CPU.get_usage(),
-        cpu_temp: CPU.get_temperature(),
-        gpu_usage: GPU.get_usage(),
-        gpu_temp: GPU.get_temperature(),
-        ram_usage: RAM.get_usage(),
+        cpu_usage: cpu.get_usage().round(),
+        cpu_temp: cpu.get_temperature().round(),
+        gpu_usage: GPU.get_usage().round(),
+        gpu_temp: GPU.get_temperature().round(),
+        ram_usage: ram.get_usage().round(),
     }
 }
