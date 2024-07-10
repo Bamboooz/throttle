@@ -9,16 +9,19 @@ interface ItemProps {
 const Item: React.FC<ItemProps> = ({ text, value, unit }) => {
     return (
         <>
-            <div className="w-full h-full bg-item odd:bg-item-odd flex items-center justify-between px-2">
+            <div className="w-full h-full bg-item odd:bg-item-odd flex items-center justify-between px-2 text-[10px]">
                 <p className="text-neutral-300 text-[9px]">{text}</p>
 
-                <div className="flex text-[10px]">
-                    <p className="text-usage font-bold">{value}</p>
+                {value !== -1.0
+                    ?<div className="flex justify-end font-bold">
+                        <p className="text-usage">{value}</p>
 
-                    <div className="w-[16px] flex justify-center">
-                        <p className="text-neutral-500 font-black"> {unit}</p>
+                        <div className="flex justify-end w-[16px]">
+                            <p className="text-neutral-500">{unit}</p>
+                        </div>
                     </div>
-                </div>
+                    : <p className="text-neutral-500 font-bold">N/A</p>
+                }
             </div>
         </>
     );

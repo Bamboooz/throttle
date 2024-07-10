@@ -19,7 +19,8 @@
             "window": {
                 "all": false,
                 "show": true,
-                "hide": true
+                "hide": true,
+                "setIgnoreCursorEvents": true
             }
         },
         "bundle": {
@@ -38,8 +39,9 @@
             {
                 "label": "main",
                 "title": "throttle",
-                "width": 205,
-                "height": 188,
+                "width": 200,
+                "height": 185,
+                "visible": false,
                 "fullscreen": false,
                 "resizable": false,
                 "decorations": false,

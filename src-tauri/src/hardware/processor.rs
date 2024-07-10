@@ -1,10 +1,11 @@
-use crate::hardware::SYSTEM;
+use sysinfo::{CpuRefreshKind, RefreshKind, System};
 
-pub fn usage() -> f64 {
-    let mut system = SYSTEM.lock().unwrap();
+pub struct Cpu {
+    pub usage: f64,
+    pub temperature: f64,
+}
 
-    system.refresh_cpu();
-    
+fn usage(system: &System) -> f64 {
     let cpus = system.cpus();
     let cpu_count = cpus.len() as f64;
     let mut total_usage = 0.0;
@@ -19,12 +20,12 @@ pub fn usage() -> f64 {
 }
 
 #[cfg(target_os = "windows")]
-pub fn temperature() -> f64 {
+fn temperature() -> f64 {
     -1.0 // To-do
 }
 
 #[cfg(target_os = "linux")]
-pub fn temperature() -> f64 {
+fn temperature() -> f64 {
     use std::fs;
     
     let temp_file_path = "/sys/class/thermal/thermal_zone0/temp";
@@ -37,5 +38,25 @@ pub fn temperature() -> f64 {
     match temp_str.trim().parse::<i32>() {
         Ok(temp) => temp as f64 / 1000.0,
         Err(_) => -1.0,
+    }
+}
+
+pub fn cpu() -> Cpu {
+    let cpu_refresh_kind = CpuRefreshKind::new()
+        .with_cpu_usage()
+        .without_frequency();
+
+    let refresh_kind: RefreshKind = RefreshKind::new()
+        .with_cpu(cpu_refresh_kind)
+        .without_memory()
+        .without_processes();
+
+    let mut system = System::new_with_specifics(refresh_kind);
+
+    system.refresh_cpu_specifics(cpu_refresh_kind);
+
+    Cpu {
+        usage: usage(&system),
+        temperature: temperature(),
     }
 }
