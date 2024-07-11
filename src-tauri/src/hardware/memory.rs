@@ -1,4 +1,4 @@
-use sysinfo::{MemoryRefreshKind, RefreshKind, System};
+use sysinfo::{MemoryRefreshKind, System};
 
 pub struct Memory {
     pub usage: f64,
@@ -13,7 +13,7 @@ fn usage(system: &System) -> f64 {
     usage
 }
 
-pub fn memory(system: &System) -> Memory {
+pub fn memory(system: &mut System) -> Memory {
     let memory_refresh_kind = MemoryRefreshKind::new()
         .with_ram()
         .without_swap();

@@ -2,7 +2,11 @@ mod processor;
 mod memory;
 mod graphics;
 
+use std::sync::Mutex;
+use sysinfo::{System, RefreshKind, CpuRefreshKind, MemoryRefreshKind};
+use nvml_wrapper::Nvml;
 use serde::{Serialize, Deserialize};
+use lazy_static::lazy_static;
 
 lazy_static! {
     pub static ref NVML: Mutex<Option<Nvml>> = Mutex::new(Nvml::init().ok());
@@ -23,9 +27,12 @@ pub struct HwInfo {
 
 #[tauri::command]
 pub async fn hw_info() -> HwInfo {
-    let cpu = processor::cpu();
-    let gpu = graphics::gpu();
-    let ram = memory::memory();
+    let nvml = NVML.lock().unwrap();
+    let mut system = SYSTEM.lock().unwrap();
+
+    let cpu = processor::cpu(&mut system);
+    let gpu = graphics::gpu(nvml.as_ref());
+    let ram = memory::memory(&mut system);
 
     HwInfo {
         cpu_usage: cpu.usage.round(),

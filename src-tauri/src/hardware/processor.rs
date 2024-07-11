@@ -1,4 +1,4 @@
-use sysinfo::{CpuRefreshKind, RefreshKind, System};
+use sysinfo::{CpuRefreshKind, System};
 
 pub struct Cpu {
     pub usage: f64,
@@ -41,22 +41,15 @@ fn temperature() -> f64 {
     }
 }
 
-pub fn cpu() -> Cpu {
+pub fn cpu(system: &mut System) -> Cpu {
     let cpu_refresh_kind = CpuRefreshKind::new()
         .with_cpu_usage()
         .without_frequency();
 
-    let refresh_kind: RefreshKind = RefreshKind::new()
-        .with_cpu(cpu_refresh_kind)
-        .without_memory()
-        .without_processes();
-
-    let mut system = System::new_with_specifics(refresh_kind);
-
     system.refresh_cpu_specifics(cpu_refresh_kind);
 
     Cpu {
-        usage: usage(&system),
+        usage: usage(system),
         temperature: temperature(),
     }
 }

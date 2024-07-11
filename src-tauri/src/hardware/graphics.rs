@@ -19,13 +19,11 @@ fn temperature(device: &Device) -> f64 {
     }
 }
 
-pub fn gpu() -> Gpu {
+pub fn gpu(nvml: Option<&Nvml>) -> Gpu {
     let err = Gpu {
         usage: -1.0,
         temperature: -1.0,
     };
-
-    let nvml = Nvml::init().ok();
 
     let nvml = match nvml {
         Some(nvml) => nvml,
@@ -41,8 +39,6 @@ pub fn gpu() -> Gpu {
         usage: usage(&device),
         temperature: temperature(&device),
     };
-
-    let _ = nvml.shutdown();
 
     gpu
 }
